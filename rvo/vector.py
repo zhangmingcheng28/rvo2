@@ -15,7 +15,7 @@ class Vector2:
             x (float): The x-coordinate of the two-dimensional vector.
             y (float):The y-coordinate of the two-dimensional vector.
         """
-        self.x_ = x
+        self.x_ = x  # single trailing underscore is only used such that it avoid conflicts with python keywords
         self.y_ = y
 
     def __str__(self):
