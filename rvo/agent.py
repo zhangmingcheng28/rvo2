@@ -228,8 +228,8 @@ class Agent:
         for i in range(len(self.agent_neighbors_)):
             other = self.agent_neighbors_[i][1]
 
-            relativePosition = other.position_ - self.position_
-            relativeVelocity = self.velocity_ - other.velocity_
+            relativePosition = other.position_ - self.position_  # get relative position between the host and nearest agent, nearest agent using kd tree to compute, represent using 2D array
+            relativeVelocity = self.velocity_ - other.velocity_  # get the relative velocity,represent using 2D array
 
             distSq = rvo_math.abs_sq(relativePosition)
             combinedRadius = self.radius_ + other.radius_
@@ -238,13 +238,13 @@ class Agent:
             line = Line()
             u = Vector2()
 
-            if distSq > combinedRadiusSq:
+            if distSq > combinedRadiusSq:  # yes, they can compare, because both are distance, and combinedRadiusSq is a fixed number. [They are comparing using the physical meaning, draw out two cirecle can easily seem]
                 # No collision.
-                w = relativeVelocity - invTimeHorizon * relativePosition
+                w = relativeVelocity - invTimeHorizon * relativePosition  # distance divided by time_horizon, yield velocity, then, use instantaneous relative velocity minus the targeted relative velocity
 
-                # Vector from cutoff center to relative velocity.
-                wLengthSq = rvo_math.abs_sq(w)
-                dotProduct1 = w @ relativePosition
+                # Vector from cutoff circle's center to the tip of the relative velocity vector
+                wLengthSq = rvo_math.abs_sq(w)  # dot product w with itself, yield the square of the vector w's length
+                dotProduct1 = w @ relativePosition  # based on the angle between the vector w and relative position, if angle is larger than 90 deg, a negative result will be yield.
 
                 if dotProduct1 < 0.0 and rvo_math.square(dotProduct1) > combinedRadiusSq * wLengthSq:
                     # Project on cut-off circle.
