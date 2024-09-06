@@ -22,58 +22,65 @@ class Blocks:
 
     def setup_scenario(self):
         # Specify the global time step of the simulation.
-        self.simulator_.set_time_step(0.25)
+        self.simulator_.set_time_step(0.5)
 
         # Specify the default parameters for agents that are subsequently added.
-        self.simulator_.set_agent_defaults(15.0, 10, 5.0, 5.0, 2.0, 2.0, Vector2(0.0, 0.0))
+        self.simulator_.set_agent_defaults(30, 100, 3, 0.5, 2.5, 15, Vector2(0.0, 0.0))
 
         # Add agents, specifying their start position, and store their goals on the opposite side of the environment.
-        for i in range(5):
-            for j in range(5):
-                self.simulator_.add_agent(Vector2(55.0 + i * 10.0, 55.0 + j * 10.0))
-                self.goals_.append(Vector2(-75.0, -75.0))
+        # for i in range(1):
+        #     for j in range(1):
+        #         self.simulator_.add_agent(Vector2(55.0 + i * 10.0, 55.0 + j * 10.0))
+        #         self.goals_.append(Vector2(-75.0, -75.0))
+        #
+        #         self.simulator_.add_agent(Vector2(-55.0 - i * 10.0, 55.0 + j * 10.0))
+        #         self.goals_.append(Vector2(75.0, -75.0))
+        #
+        #         self.simulator_.add_agent(Vector2(55.0 + i * 10.0, -55.0 - j * 10.0))
+        #         self.goals_.append(Vector2(-75.0, 75.0))
+        #
+        #         self.simulator_.add_agent(Vector2(-55.0 - i * 10.0, -55.0 - j * 10.0))
+        #         self.goals_.append(Vector2(75.0, 75.0))
+        self.simulator_.add_agent(Vector2(55.0, 55.0))
+        self.goals_.append(Vector2(-75.0, -75.0))
 
-                self.simulator_.add_agent(Vector2(-55.0 - i * 10.0, 55.0 + j * 10.0))
-                self.goals_.append(Vector2(75.0, -75.0))
+        self.simulator_.add_agent(Vector2(-75.0, -75.0))
+        self.goals_.append(Vector2(55.0, 55.0))
 
-                self.simulator_.add_agent(Vector2(55.0 + i * 10.0, -55.0 - j * 10.0))
-                self.goals_.append(Vector2(-75.0, 75.0))
-
-                self.simulator_.add_agent(Vector2(-55.0 - i * 10.0, -55.0 - j * 10.0))
-                self.goals_.append(Vector2(75.0, 75.0))
-
-        # Add (polygonal) obstacles, specifying their vertices in counterclockwise order.
-        obstacle1 = []
-        obstacle1.append(Vector2(-10.0, 40.0))
-        obstacle1.append(Vector2(-40.0, 40.0))
-        obstacle1.append(Vector2(-40.0, 10.0))
-        obstacle1.append(Vector2(-10.0, 10.0))
-        self.simulator_.add_obstacle(obstacle1)
-        self.obstacles_.append(obstacle1)
-
-        obstacle2 = []
-        obstacle2.append(Vector2(10.0, 40.0))
-        obstacle2.append(Vector2(10.0, 10.0))
-        obstacle2.append(Vector2(40.0, 10.0))
-        obstacle2.append(Vector2(40.0, 40.0))
-        self.simulator_.add_obstacle(obstacle2)
-        self.obstacles_.append(obstacle2)
-
-        obstacle3 = []
-        obstacle3.append(Vector2(10.0, -40.0))
-        obstacle3.append(Vector2(40.0, -40.0))
-        obstacle3.append(Vector2(40.0, -10.0))
-        obstacle3.append(Vector2(10.0, -10.0))
-        self.simulator_.add_obstacle(obstacle3)
-        self.obstacles_.append(obstacle3)
-
-        obstacle4 = []
-        obstacle4.append(Vector2(-10.0, -40.0))
-        obstacle4.append(Vector2(-10.0, -10.0))
-        obstacle4.append(Vector2(-40.0, -10.0))
-        obstacle4.append(Vector2(-40.0, -40.0))
-        self.simulator_.add_obstacle(obstacle4)
-        self.obstacles_.append(obstacle4)
+        # # Add (polygonal) obstacles, specifying their vertices in counterclockwise order.
+        # obstacle1 = []
+        # obstacle1.append(Vector2(-10.0, 40.0))
+        # obstacle1.append(Vector2(-40.0, 40.0))
+        # obstacle1.append(Vector2(-40.0, 10.0))
+        # obstacle1.append(Vector2(-10.0, 10.0))
+        # self.simulator_.add_obstacle(obstacle1)  # for calculation
+        # self.obstacles_.append(obstacle1)  # for display only
+        #
+        # obstacle2 = []
+        # obstacle2.append(Vector2(10.0, 40.0))
+        # obstacle2.append(Vector2(10.0, 10.0))
+        # obstacle2.append(Vector2(40.0, 10.0))
+        # #obstacle2.append(Vector2(20.0, 20.0))
+        # obstacle2.append(Vector2(40.0, 40.0))
+        # #obstacle2.append(Vector2(12.0, 13.0))
+        # self.simulator_.add_obstacle(obstacle2)
+        # self.obstacles_.append(obstacle2)
+        # #
+        # obstacle3 = []
+        # obstacle3.append(Vector2(10.0, -40.0))
+        # obstacle3.append(Vector2(40.0, -40.0))
+        # obstacle3.append(Vector2(40.0, -10.0))
+        # obstacle3.append(Vector2(10.0, -10.0))
+        # self.simulator_.add_obstacle(obstacle3)
+        # self.obstacles_.append(obstacle3)
+        #
+        # obstacle4 = []
+        # obstacle4.append(Vector2(-10.0, -40.0))
+        # obstacle4.append(Vector2(-10.0, -10.0))
+        # obstacle4.append(Vector2(-40.0, -10.0))
+        # obstacle4.append(Vector2(-40.0, -40.0))
+        # self.simulator_.add_obstacle(obstacle4)
+        # self.obstacles_.append(obstacle4)
 
         # Process the obstacles so that they are accounted for in the simulation.
         self.simulator_.process_obstacles()
@@ -138,7 +145,11 @@ def main():
             blocks.update_visualization(viewer)
         blocks.set_preferred_velocities()
         blocks.simulator_.step()
-
+        # if len(blocks.simulator_.agents_[0].agent_neighbors_) != 0:
+        #     print("---------------in----------------------------")
+        # print("current agent {} velocity is {}".format(blocks.simulator_.agents_[0].id_, (blocks.simulator_.agents_[0].velocity_.x, blocks.simulator_.agents_[0].velocity_.y)))
+        # print("current agent {} velocity is {}".format(blocks.simulator_.agents_[1].id_, (blocks.simulator_.agents_[1].velocity_.x, blocks.simulator_.agents_[1].velocity_.y)))
+        # print("---------------------------------------------------------------")
 
 if __name__ == '__main__':
     main()

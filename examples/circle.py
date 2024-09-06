@@ -27,9 +27,9 @@ class Circle:
         self.simulator_.set_agent_defaults(15.0, 10, 10.0, 10.0, 1.5, 2.0, Vector2(0.0, 0.0))
 
         # Add agents, specifying their start position, and store their goals on the opposite side of the environment.
-        for i in range(250):
-            self.simulator_.add_agent(200.0 *
-                Vector2(math.cos(i * 2.0 * math.pi / 250.0), math.sin(i * 2.0 * math.pi / 250.0)))
+        totalAgentNum = 3
+        for i in range(totalAgentNum):
+            self.simulator_.add_agent(200.0 *Vector2(math.cos(i * 2.0 * math.pi / totalAgentNum), math.sin(i * 2.0 * math.pi / totalAgentNum)))
             self.goals_.append(-self.simulator_.agents_[i].position_)
 
     def update_visualization(self, viewer):
@@ -38,7 +38,7 @@ class Circle:
 
         # Render the current position of all the agents.
         for i in range(self.simulator_.num_agents):
-            position = self.simulator_.agents_[i].position_
+            position = self.simulator_.agents_[i].position_  # position_ is in terms of Vector2() class
             color = [0, 0, 0]
             color[i % 3] = 1
             circle = viewer.draw_circle(radius=self.simulator_.default_agent_.radius_, color=color)
